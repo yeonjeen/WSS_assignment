@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        myMBTISpinner()
+        setupMBTISpinner()
         infoRegistration()
         initFollowerRecyclerView()
     }
@@ -62,7 +62,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun myMBTISpinner() {
+    private fun setupMBTISpinner() {
         mbtiSpinner = binding.spinnerHomeMBTI
 
         val mbtiAdapter =
