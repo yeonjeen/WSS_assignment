@@ -14,7 +14,6 @@ import com.example.wsselixir.databinding.ActivityHomeBinding
 import com.example.wsselixir.databinding.DialogFollowerInfoBinding
 
 class HomeActivity : AppCompatActivity() {
-    private lateinit var mbtiSpinner: Spinner
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +27,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun infoRegistration() {
-        val btnRegistration = binding.btnHomeRegistration
 
-        btnRegistration.setOnClickListener {
+        binding.btnHomeRegistration.setOnClickListener {
             val name = binding.etHomeName.text.toString()
             val mbti = binding.spinnerHomeMBTI.selectedItem.toString()
 
@@ -63,7 +61,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupMBTISpinner() {
-        mbtiSpinner = binding.spinnerHomeMBTI
+        val mbtiSpinner: Spinner = binding.spinnerHomeMBTI
 
         val mbtiAdapter =
             ArrayAdapter.createFromResource(
@@ -100,6 +98,7 @@ class HomeActivity : AppCompatActivity() {
             },
         )
     }
+
     private fun showFriendInfoDialog(follower: FollowerInformation.Followers) {
         val dialog = Dialog(this)
         val dialogBinding = DialogFollowerInfoBinding.inflate(layoutInflater)
