@@ -85,11 +85,11 @@ class HomeActivity : AppCompatActivity() {
                 FollowerInformation.Followers(R.drawable.meongjin, "명진"),
             )
 
-        val FollowerViewTypeAdapter = FollowersAdapter(mockFriendList)
-        binding.layoutFollower.adapter = FollowerViewTypeAdapter
-        FollowerViewTypeAdapter.setFollowerList(mockFriendList)
+        val followerViewTypeAdapter = FollowersAdapter(mockFriendList)
+        binding.layoutFollower.adapter = followerViewTypeAdapter
+        followerViewTypeAdapter.setFollowerList(mockFriendList)
 
-        FollowerViewTypeAdapter.setOnItemClickListener(
+        followerViewTypeAdapter.setOnItemClickListener(
             object :
                 FollowersAdapter.OnItemClickListener {
                 override fun onItemClick(follower: FollowerInformation.Followers) {
