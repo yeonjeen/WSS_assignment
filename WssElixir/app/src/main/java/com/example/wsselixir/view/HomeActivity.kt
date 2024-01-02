@@ -22,11 +22,24 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupMBTISpinner()
-        infoRegistration()
+        registerInfo()
         initFollowerRecyclerView()
     }
 
-    private fun infoRegistration() {
+    private fun setupMBTISpinner() {
+        val mbtiSpinner: Spinner = binding.spinnerHomeMBTI
+
+        val mbtiAdapter =
+            ArrayAdapter.createFromResource(
+                this,
+                R.array.typeMBTI,
+                android.R.layout.simple_spinner_item,
+            )
+        mbtiAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mbtiSpinner.adapter = mbtiAdapter
+    }
+
+    private fun registerInfo()  {
 
         binding.btnHomeRegistration.setOnClickListener {
             val name = binding.etHomeName.text.toString()
@@ -60,18 +73,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupMBTISpinner() {
-        val mbtiSpinner: Spinner = binding.spinnerHomeMBTI
-
-        val mbtiAdapter =
-            ArrayAdapter.createFromResource(
-                this,
-                R.array.typeMBTI,
-                android.R.layout.simple_spinner_item,
-            )
-        mbtiAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mbtiSpinner.adapter = mbtiAdapter
-    }
 
     private fun initFollowerRecyclerView() {
         val mockFriendList =
