@@ -1,4 +1,4 @@
-package com.example.wsselixir.view
+package com.example.wsselixir.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +14,6 @@ class MyInformationActivity : AppCompatActivity() {
         setInformaionIntent()
 
     }
-
     private fun setInformaionIntent() {
         binding.tvMyInfoPutName.text = intent.getStringExtra("name")
         binding.tvMyInfoPutMBTI.text = intent.getStringExtra("mbti")
