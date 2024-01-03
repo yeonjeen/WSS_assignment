@@ -2,10 +2,8 @@ package com.example.wsselixir.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.wsselixir.data.FollowerInformation
 import com.example.wsselixir.databinding.ItemFollowerBinding
 import com.example.wsselixir.remote.UserResponseDto
 
@@ -44,12 +42,15 @@ class FollowersAdapter(private var users: List<UserResponseDto.User>) :
 
     inner class userViewHolder(private val binding: ItemFollowerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val followerImage: ImageView = binding.imgFollower
 
         fun bind(user: UserResponseDto.User) {
-            Glide.with(itemView)
-                .load(user.avatar)
-                .into(followerImage)
+            binding.apply {
+                // Set user data to views
+                tvFollowerName.text = user.first_name
+                Glide.with(itemView)
+                    .load(user.avatar)
+                    .into(imgFollower)
+            }
 
             itemView.setOnClickListener {
                 onItemClickListener.onItemClick(user)
