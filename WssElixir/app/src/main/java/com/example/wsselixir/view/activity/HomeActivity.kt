@@ -10,25 +10,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.wsselixir.R
 import com.example.wsselixir.adapter.FollowersAdapter
-import com.example.wsselixir.adapter.HomeViewModel
 import com.example.wsselixir.databinding.ActivityHomeBinding
+import com.example.wsselixir.view.model.HomeViewModel
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var followerAdapter: FollowersAdapter
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        setupUI()
+    }
 
+    private fun setupUI() {
         setupMBTISpinner()
-        registerInfo()
+        registerUserInfo()
         setupRecyclerView()
         observeFollowers()
+        homeViewModel.fetchData()
     }
 
     private fun setupMBTISpinner() {
@@ -43,36 +47,20 @@ class HomeActivity : AppCompatActivity() {
         mbtiSpinner.adapter = mbtiAdapter
     }
 
-    private fun registerInfo() {
+    private fun registerUserInfo() {
 
         binding.btnHomeRegistration.setOnClickListener {
             val name = binding.etHomeName.text.toString()
             val mbti = binding.spinnerHomeMBTI.selectedItem.toString()
 
-            val isNameBlank = name.isBlank()
-            val isMbtiNull = mbti.isEmpty()
+            val errorMessageResId = homeViewModel.registerUserInfo(name, mbti)
 
-            when {
-                isNameBlank && isMbtiNull -> {
-                    Toast.makeText(this, R.string.allFailRegistration, Toast.LENGTH_SHORT).show()
-                }
-
-                isNameBlank -> {
-                    Toast.makeText(this, R.string.nameFailRegistration, Toast.LENGTH_SHORT).show()
-                }
-
-                isMbtiNull -> {
-                    Toast.makeText(this, R.string.mbtiFailRegistration, Toast.LENGTH_SHORT).show()
-                }
-
-                else -> {
-                    val intent =
-                        Intent(this@HomeActivity, MyInformationActivity::class.java).apply {
-                            putExtra("name", name)
-                            putExtra("mbti", mbti)
-                        }
-                    startActivity(intent)
-                }
+            if (errorMessageResId != 0) {
+                Toast.makeText(this, errorMessageResId, Toast.LENGTH_SHORT).show()
+            } else {
+                val intent =
+                    Intent(this@HomeActivity, DetailActivity::class.java)
+                startActivity(intent)
             }
         }
     }
@@ -84,10 +72,11 @@ class HomeActivity : AppCompatActivity() {
             GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false)
     }
 
-
     private fun observeFollowers() {
-        viewModel.followers.observe(this) { followers ->
+        homeViewModel.followers.observe(this) { followers ->
             followerAdapter.setUsers(followers)
         }
     }
+
+
 }
